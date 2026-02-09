@@ -1,0 +1,107 @@
+//
+// Created by RAZEEF on 14-01-2026.
+//
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define fast_io ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define ll long long
+#define ld long double
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)(x).size()
+#define fi first
+#define se second
+
+
+using pii = pair<int, int>;
+using pll = pair<long long, long long>;
+using vi  = vector<int>;
+using vvi = vector<vector<int>>;
+using vll = vector<long long>;
+using vvll = vector<vector<long long>>;
+using vpi = vector<pair<int,int>>;
+using vpl = vector<pair<long long,long long>>;
+using ppll = pair<ll, pair<ll, ll>>;
+
+const int INF = 1e9 + 7;
+const ll LINF = 1e18;
+const int MOD = 1e9 + 7;
+const ld PI = acos(-1.0);
+
+
+vector<int> getDigitsInOrder(long long n) {
+    vector<int> d;
+    if (n == 0) return {0};
+    while (n) {
+        d.push_back(n % 10);
+        n /= 10;
+    }
+    reverse(d.begin(), d.end());
+    return d;
+}
+
+
+
+void moon() {
+
+    ll n;
+    cin >> n;
+
+    vector<int> d = getDigitsInOrder(n);
+    if (sz(d)<=1) {
+        if (d[0]%2==0) {
+            cout<<-1<<'\n';
+            return;
+        }
+
+    }
+
+    int notZeros=0;
+    if (d[sz(d)-1]%2!=0) {
+        cout<<0<<'\n';
+        return;
+    }
+
+    ll maxi=-LINF;
+    for (int i=0;i<sz(d);i++) {
+
+        if (d[i]!=0) notZeros++;
+        if (d[i]%2!=0) {
+
+            cout << 1 << '\n';
+            return;
+        }
+
+        maxi=max(maxi, (ll)d[i]);
+    }
+
+
+   if (d[sz(d)-1]<maxi) {
+       cout<<2<<'\n';
+       return;
+   }else {
+       cout<<3<<'\n';
+   }
+
+
+
+
+
+}
+
+int main() {
+    fast_io;
+
+    int t = 1;
+    cin >> t; // Comment this out if there is only 1 test case (no T)
+
+    while(t--) {
+        moon();
+    }
+
+    return 0;
+}

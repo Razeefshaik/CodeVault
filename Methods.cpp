@@ -30,6 +30,14 @@ const ll LINF = 1e18;
 const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
+/***
+
+isPrime
+sieve
+nCr
+factorscount
+DSU
+    ***/
 
 
 //Prime number till "n"
@@ -55,6 +63,24 @@ vector<ll>  sieve(int n) {
 
     return ans;
 }
+
+
+bool isPrime(long long n) {
+
+    if(n <= 1) return false;
+    if(n <= 3) return true;
+
+    if(n % 2 == 0 || n % 3 == 0)
+        return false;
+
+    for(long long i = 5; i * i <= n; i += 6) {
+        if(n % i == 0 || n % (i + 2) == 0)
+            return false;
+    }
+
+    return true;
+}
+
 
 
 long long nCr(int n, int r) {

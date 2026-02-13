@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 11-02-2026.
+// Created by RAZEEF on 14-02-2026.
 //
 
 
@@ -33,28 +33,37 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
+int cnt(string &a, string &b, int bit) {
 
-
+    int n=a.size();
+    int c=0;
+    for (int i=0;i<n;i++) {
+        if (bit) {
+            if (a[i]=='0') c++;
+        }else {
+            if (b[i]=='0') c++;
+        }
+        bit=1-bit;
+    }
+    return c;
+}
 
 void moon() {
 
     ll n;
     cin >> n;
+    string a,b;
+    cin>>a;
+    cin>>b;
 
-    vll a(n);
-    for (ll i = 0; i < n; i++)
-        cin >> a[i];
+    if (cnt(a,b,1)>=((n+1)/2) && cnt(a,b,0)>=n/2) {
+        cout<<"YES"<<'\n';
 
-   int cnt=0;
-    for (int j=0;j<n;j++) {
-
-        for (int d=a[j];d<=min(n, a[j]*a[j]); d+=a[j]) {
-            if (j+d<n && a[j]*a[j+d]==d) cnt++;
-            if (j-d>=0 && a[j]*a[j-d]==d && a[j]!=a[j-d]) cnt++;
-        }
+    }else {
+        cout<<"NO"<<'\n';
     }
 
-    cout<<cnt<<"\n";
+
 }
 
 int main() {

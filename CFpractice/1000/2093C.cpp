@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 11-02-2026.
+// Created by RAZEEF on 14-02-2026.
 //
 
 
@@ -32,29 +32,44 @@ const ll LINF = 1e18;
 const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
+bool isPrime(long long n) {
 
+    if(n <= 1) return false;
+    if(n <= 3) return true;
 
+    if(n % 2 == 0 || n % 3 == 0)
+        return false;
+
+    for(long long i = 5; i * i <= n; i += 6) {
+        if(n % i == 0 || n % (i + 2) == 0)
+            return false;
+    }
+
+    return true;
+}
 
 
 void moon() {
 
-    ll n;
-    cin >> n;
+    ll n,k;
+    cin >> n>>k;
 
-    vll a(n);
-    for (ll i = 0; i < n; i++)
-        cin >> a[i];
-
-   int cnt=0;
-    for (int j=0;j<n;j++) {
-
-        for (int d=a[j];d<=min(n, a[j]*a[j]); d+=a[j]) {
-            if (j+d<n && a[j]*a[j+d]==d) cnt++;
-            if (j-d>=0 && a[j]*a[j-d]==d && a[j]!=a[j-d]) cnt++;
-        }
+    if(n>1 && k>1) {
+        cout<<"No"<<'\n';
+        return;
+    }
+    if (isPrime(n)) {
+        cout<<"Yes"<<'\n';
+        return;
+    }
+    if (k==2) {
+        cout<<"Yes"<<'\n';
+        return;
     }
 
-    cout<<cnt<<"\n";
+    cout<<"No"<<'\n';
+
+
 }
 
 int main() {

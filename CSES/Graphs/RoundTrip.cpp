@@ -34,7 +34,7 @@ const ld PI = acos(-1.0);
 
 void print(int i,int j,vector<int> &parents) {
     vector<int> left;
-    vector<int> right;
+
 
     left.pb(i+1);
     while (i!=j) {

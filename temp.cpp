@@ -10,34 +10,86 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 
 
-int longestBalanced(string s) {
+    vector<string> maxNumOfSubstrings(string s) {
 
-
-    int n=s.size();
-    int maxi=1;
-    for(int i=0;i<n;i++){
-
-        unordered_map<char, int> mpp;
-        set<pair<int,char>> st;
-        for(int j=i;j<n;j++){
-
-            if(!st.empty() &&  st.find({mpp[s[j]], s[j]})!=st.end() ){
-                st.erase({mpp[s[j]], s[j]});
-            }
-            mpp[s[j]]++;
-            st.insert({mpp[s[j]], s[j]});
-
-            if(st.begin()->first==st.rbegin()->first) maxi=max(maxi, j-i+1);
+        vector<vector<int>> mask(26);
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            mask[s[i]-'a'].push_back(i);
         }
+
+        vector<pair<int, vector<int>>> arr;
+        for(int i=0;i<26;i++){
+
+            if(!mask[i].empty()) arr.push_back({mask[i][0],{mask[i].back(), i}});
+        }
+
+        sort(arr.begin(), arr.end());
+
+        int l=-1;
+        int r=-1;
+        if(!arr.empty()) l=arr[0].first;
+        r=l;
+        vector<pair<int, vector<int>>> arr2;
+        int oidx=-1;
+        for(int i=0;i<arr.size();i++){
+            int r2=arr[i].second[0];
+            int l2=arr[i].first;
+            int idx=arr[i].second[1];
+            oidx=idx;
+            if(l2>l && r2<r){
+                arr2.push_back({r2,{l2, idx}});
+            }
+            else if(l2>=l && r2>r){
+                r=r2;
+            }else if (l2>r) {
+
+            }
+            else{
+                arr2.push_back({r,{l, idx}});
+                if(i+1<arr.size()) l=arr[i+1].first;
+                r=l;
+            }
+        }
+        if(oidx!=-1) arr2.push_back({r,{l, oidx}});
+
+
+
+        sort(arr2.begin(), arr2.end());
+        vector<int> mks;
+        int last=-1;
+        for(auto it: arr2){
+            int l=it.second[0];
+            int r=it.first;
+            int idx=it.second[1];
+
+            if(last<l){
+                mks.push_back(idx);
+                last=r;
+            }
+        }
+
+        vector<string> ans;
+        for(auto it: mks){
+
+            string t="";
+            int st=mask[it][0];
+            int e=mask[it].back();
+            for(int i=st;i<=e;i++){
+                t+=s[i];
+            }
+            ans.push_back(t);
+
+        }
+
+        return ans;
     }
 
-    return maxi;
-}
 
 void moon() {
 
-    string s="abbac";
-    cout<<longestBalanced(s);
+    string s="abbaccd";
+    maxNumOfSubstrings(s);
 
 }
 

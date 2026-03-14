@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 26-01-2026.
+// Created by RAZEEF on 14-02-2026.
 //
 
 
@@ -33,75 +33,58 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-ll factorscnt(ll n) {
-
-    ll cnt=0;
-    for (ll i=1;i*i<=n;i++) {
-
-        if (n%i==0) {
-            cnt++;
-
-            if (i!=n/i) cnt++;
-        }
-    }
-    return cnt;
-}
 
 
-vector<int> smallprimefactors() {
-
-    const int MAXN=1000006;
-    vector<int> spf(MAXN);
-
-    for (int i=0;i<MAXN;i++) {
-        spf[i]=i;
-    }
-
-    for (int i=2;i*i<MAXN;i++) {
-
-        if (spf[i]==i) {
-
-            for (int j=i*i;j<MAXN;j+=i) {
-                if (spf[j]==j) spf[j]=i;
-            }
-        }
-    }
-
-    return spf;
-}
-
-
-void finddivisors() {
+void moon() {
 
     ll n;
     cin >> n;
+    vll a(n);
+    for (ll i = 0; i < n; i++) cin>>a[i];
 
+    vector<ll> prelcm(n), sufflcm(n);
+    ll mod=998244353;
 
+    ll plcm=a[0];
+    prelcm[0]=a[0];
+    for (ll i = 1; i < n; i++) {
+         plcm = lcm(plcm, a[i]);
+         prelcm[i]=plcm;
 
-    vector<int> spf;
-    spf=smallprimefactors();
-
-    ll ans=1;
-    while (n>1) {
-
-        ll sp=spf[n];
-
-        int p=0;
-        while (n%sp==0) {
-            p++;
-            n/=sp;
-        }
-        ans*=(p+1);
     }
 
-    cout<<ans<<'\n';
+    ll slcm=a.back();
+    sufflcm[n-1]=slcm;
+    for (ll i = n-1; i >= 0; i--) {
+        slcm = lcm(slcm, a[i]);
+        sufflcm[i]=slcm;
+    }
 
+    for (int i=0;i<n;i++) {
+
+        ll rem;
+        if (i-1>=0 && i+1<n) {
+
+            ll l=lcm(prelcm[i-1],sufflcm[i+1]);
+            rem= ((l+mod)%mod);
+            cout<<rem<<" ";
+        }else if (i-1>=0) {
+            ll l=prelcm[i-1];
+            rem= ((l+mod)%mod);
+            cout<<rem<<" ";
+        }else if (i+1<n) {
+            ll l=sufflcm[i+1];
+            rem= ((l+mod)%mod);
+            cout<<rem<<" ";
+        }
+
+    }
+    cout<<'\n';
 
 }
 
 int main() {
     fast_io;
-    sieve();
 
     int t = 1;
     cin >> t; // Comment this out if there is only 1 test case (no T)

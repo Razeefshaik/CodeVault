@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 26-01-2026.
+// Created by RAZEEF on 16-02-2026.
 //
 
 
@@ -33,75 +33,38 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-ll factorscnt(ll n) {
-
-    ll cnt=0;
-    for (ll i=1;i*i<=n;i++) {
-
-        if (n%i==0) {
-            cnt++;
-
-            if (i!=n/i) cnt++;
-        }
-    }
-    return cnt;
-}
 
 
-vector<int> smallprimefactors() {
-
-    const int MAXN=1000006;
-    vector<int> spf(MAXN);
-
-    for (int i=0;i<MAXN;i++) {
-        spf[i]=i;
-    }
-
-    for (int i=2;i*i<MAXN;i++) {
-
-        if (spf[i]==i) {
-
-            for (int j=i*i;j<MAXN;j+=i) {
-                if (spf[j]==j) spf[j]=i;
-            }
-        }
-    }
-
-    return spf;
-}
-
-
-void finddivisors() {
+void moon() {
 
     ll n;
     cin >> n;
 
-
-
-    vector<int> spf;
-    spf=smallprimefactors();
-
-    ll ans=1;
-    while (n>1) {
-
-        ll sp=spf[n];
-
-        int p=0;
-        while (n%sp==0) {
-            p++;
-            n/=sp;
-        }
-        ans*=(p+1);
+    if (n<4) {
+        cout<<n<<'\n';
+        return;
     }
 
-    cout<<ans<<'\n';
+    int t=n/2;
+    int bal=0;
+    if (n%2!=0) bal=1;
+
+    int r=t/2;
+    int l=t-r;
+    //cout<<r<<' '<<l<<'\n';
+    int maxi=max(l,r);
+    int mini=min(l,r);
+    maxi=maxi-abs(maxi-mini)/2;
+    int diff= abs(2*maxi-2*mini);
+    if (diff>0 && bal) diff--;
+    else if (diff<=0 && bal) diff++;
+    cout<<diff<<'\n';
 
 
 }
 
 int main() {
     fast_io;
-    sieve();
 
     int t = 1;
     cin >> t; // Comment this out if there is only 1 test case (no T)

@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 26-01-2026.
+// Created by RAZEEF on 26-02-2026.
 //
 
 
@@ -33,20 +33,32 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-ll factorscnt(ll n) {
 
-    ll cnt=0;
-    for (ll i=1;i*i<=n;i++) {
+bool sqq(long long n) {
+    if(n < 0) return false;
 
-        if (n%i==0) {
-            cnt++;
-
-            if (i!=n/i) cnt++;
-        }
-    }
-    return cnt;
+    long long r = sqrt(n);
+    return (r * r == n);
 }
 
+ll sq(ll n) {
+    if(n < 0) return false;
+
+    long long r = sqrt(n);
+    return r;
+}
+
+ll smf(ll n) {
+    if (n<= 1) return n;
+    if (n %2==0) return 2;
+
+    for (long long i =3;i*i <=n; i+=2) {
+        if (n%i==0)
+            return i;
+    }
+
+    return n;
+}
 
 vector<int> smallprimefactors() {
 
@@ -71,37 +83,55 @@ vector<int> smallprimefactors() {
 }
 
 
-void finddivisors() {
+vector<long long> pmfs(long long n) {
+    vector<long long> factors;
+
+
+    while(n % 2 == 0) {
+        factors.push_back(2);
+        n /= 2;
+    }
+
+
+    for(long long i = 3; i * i <= n; i += 2) {
+        while(n % i == 0) {
+            factors.push_back(i);
+            n /= i;
+        }
+    }
+
+
+    if(n > 1)
+        factors.push_back(n);
+
+    return factors;
+}
+
+void moon() {
 
     ll n;
     cin >> n;
 
+    vll b=pmfs(n);
 
-
-    vector<int> spf;
-    spf=smallprimefactors();
-
-    ll ans=1;
-    while (n>1) {
-
-        ll sp=spf[n];
-
-        int p=0;
-        while (n%sp==0) {
-            p++;
-            n/=sp;
-        }
-        ans*=(p+1);
+    set<ll> s;
+    for(ll i=0;i<sz(b);i++) {
+        s.insert(b[i]);
     }
 
-    cout<<ans<<'\n';
+    ll res=1;
+
+    for(auto it: s) {
+        res*=it;
+    }
+    cout << res << '\n';
+
 
 
 }
 
 int main() {
     fast_io;
-    sieve();
 
     int t = 1;
     cin >> t; // Comment this out if there is only 1 test case (no T)

@@ -32,11 +32,19 @@ const ld PI = acos(-1.0);
 
 /***
 
+##Funs
 isPrime
+smallprimefactors
+finddivisors
 sieve
 nCr
 factorscount
+safe_lcm
+rotateString  - right rotate range l to r with n times
+
+##Classes
 DSU
+ExInc
     ***/
 
 
@@ -81,8 +89,59 @@ bool isPrime(long long n) {
     return true;
 }
 
+//////////////////////////////////////////////////////
+
+vector<int> smallprimefactors() {
+
+    const int MAXN=1000006;
+    vector<int> spf(MAXN);
+
+    for (int i=0;i<MAXN;i++) {
+        spf[i]=i;
+    }
+
+    for (int i=2;i*i<MAXN;i++) {
+
+        if (spf[i]==i) {
+
+            for (int j=i*i;j<MAXN;j+=i) {
+                if (spf[j]==j) spf[j]=i;
+            }
+        }
+    }
+
+    return spf;
+}
 
 
+void finddivisors() {
+
+    ll n;
+    cin >> n;
+
+
+
+    vector<int> spf;
+    spf=smallprimefactors();
+
+    ll ans=1;
+    while (n>1) {
+
+        ll sp=spf[n];
+
+        int p=0;
+        while (n%sp==0) {
+            p++;
+            n/=sp;
+        }
+        ans*=(p+1);
+    }
+
+    cout<<ans<<'\n';
+
+
+}
+/////////////////////////////////////////////////////
 long long nCr(int n, int r) {
     if (r > n) return 0;
     if (r > n - r) r = n - r;   // Optimization
@@ -112,6 +171,28 @@ ll factorscount(ll n) {
     return cnt;
 }
 
+long long safe_lcm(long long a, long long b, long long limit) {
+    long long g = gcd(a, b);
+
+    a /= g;
+
+    if (a > limit / b)
+        return 0;   // indicates overflow or > limit
+
+    return a * b;
+}
+
+
+string rotateString(string s,long long l, long long r, long long times) {
+
+
+     ll len= (r-l)+1;
+        times= times%len;
+
+        rotate(s.begin()+l, s.begin()+r-times+1, s.begin()+r+1);
+
+    return s;
+}
 
 
 
@@ -156,4 +237,43 @@ public:
         }
     }
 };
+
+
+
+
+
+//Inclusion and exclusion -- no of integers divisble by k given numbers less than x
+class ExInc {
+    public:
+    vector<int> a;
+    int n;
+    ExInc(vector<int> &a) {
+        this->a=a;
+        n=a.size();
+    }
+
+    long long cnt(ll x) {
+
+        ll res=0;
+        for (ll i=1;i<(1<<n);i++) {
+
+           ll lc=1;
+            int bits=0;
+            for (ll b=0;b<n;b++) {
+                if (i&(1<<b)) {
+                    lc= lcm(lc, a[b]);
+                    bits++;
+                }
+            }
+
+            if (bits%2==0) {
+                res-=x/lc;
+            }else res+=x/lc;
+        }
+        return x-res;
+    }
+
+
+};
+
 

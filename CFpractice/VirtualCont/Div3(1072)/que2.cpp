@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 26-01-2026.
+// Created by RAZEEF on 16-02-2026.
 //
 
 
@@ -33,75 +33,49 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-ll factorscnt(ll n) {
-
-    ll cnt=0;
-    for (ll i=1;i*i<=n;i++) {
-
-        if (n%i==0) {
-            cnt++;
-
-            if (i!=n/i) cnt++;
-        }
-    }
-    return cnt;
-}
 
 
-vector<int> smallprimefactors() {
+void moon() {
 
-    const int MAXN=1000006;
-    vector<int> spf(MAXN);
+    ll s,k,m;
+    cin >> s>>k>>m;
 
-    for (int i=0;i<MAXN;i++) {
-        spf[i]=i;
-    }
-
-    for (int i=2;i*i<MAXN;i++) {
-
-        if (spf[i]==i) {
-
-            for (int j=i*i;j<MAXN;j+=i) {
-                if (spf[j]==j) spf[j]=i;
-            }
+    if (s< k) {
+        if (m%k==0) {
+            cout<<s<<'\n';
+            return;
+        }else {
+            cout<<0<<'\n';
+            return;
         }
     }
 
-    return spf;
-}
-
-
-void finddivisors() {
-
-    ll n;
-    cin >> n;
-
-
-
-    vector<int> spf;
-    spf=smallprimefactors();
-
-    ll ans=1;
-    while (n>1) {
-
-        ll sp=spf[n];
-
-        int p=0;
-        while (n%sp==0) {
-            p++;
-            n/=sp;
+    if (m%k==0) {
+        if (m%2==0) {
+            cout<<s<<'\n';
+            return;
+        }else {
+            cout<<k<<'\n';
+            return;
         }
-        ans*=(p+1);
+    }else {
+        if (m%2==0) {
+            cout<<s-k+(m-((m/k)*k))<<'\n';
+
+            return;
+        }else {
+            cout<<s-(m-((m/k)*k))<<'\n';
+            cout<<"me";
+            return;
+        }
     }
 
-    cout<<ans<<'\n';
 
 
 }
 
 int main() {
     fast_io;
-    sieve();
 
     int t = 1;
     cin >> t; // Comment this out if there is only 1 test case (no T)

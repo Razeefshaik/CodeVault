@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 26-01-2026.
+// Created by RAZEEF on 25-02-2026.
 //
 
 
@@ -33,75 +33,79 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-ll factorscnt(ll n) {
+bool yes(ll n, ll s, vll &tws) {
 
-    ll cnt=0;
-    for (ll i=1;i*i<=n;i++) {
+    ll rem=s;
 
-        if (n%i==0) {
-            cnt++;
-
-            if (i!=n/i) cnt++;
-        }
+    for (auto it: tws) {
+        ll t= n;
+        if ((rem/it)<n) t=rem/it;
+        rem-=(t*it);
     }
-    return cnt;
+
+    if (rem==0) return true;
+    else return false;
 }
 
+void moon() {
 
-vector<int> smallprimefactors() {
+    ll s,m;
+    cin >> s>>m;
 
-    const int MAXN=1000006;
-    vector<int> spf(MAXN);
+    vll b;
 
-    for (int i=0;i<MAXN;i++) {
-        spf[i]=i;
+     vll idxs;
+    ll temp=m;
+      while (temp>0) {
+
+          idxs.pb(temp%2);
+          temp/=2;
+
+      }
+
+
+    for (int i=0;i<idxs.size();i++) {
+
+        if (idxs[i]==1) {
+            b.pb(1ll<<i);
+        }
+
     }
 
-    for (int i=2;i*i<MAXN;i++) {
+    reverse(all(b));
 
-        if (spf[i]==i) {
 
-            for (int j=i*i;j<MAXN;j+=i) {
-                if (spf[j]==j) spf[j]=i;
-            }
+    ll h=1e18+2;
+    ll l=0;
+    bool f=true;
+    ll ans=0;
+    while (l<=h) {
+
+        ll md= l+(h-l)/2;
+        if (yes(md,s,b))  {
+            ans=md;
+            f=false;
+            h=md-1;
+        }else {
+            l=md+1;
         }
     }
 
-    return spf;
-}
-
-
-void finddivisors() {
-
-    ll n;
-    cin >> n;
-
-
-
-    vector<int> spf;
-    spf=smallprimefactors();
-
-    ll ans=1;
-    while (n>1) {
-
-        ll sp=spf[n];
-
-        int p=0;
-        while (n%sp==0) {
-            p++;
-            n/=sp;
-        }
-        ans*=(p+1);
+    if (f) {
+        cout<<-1<<'\n';
+        return;
     }
 
-    cout<<ans<<'\n';
+
+    cout << ans << '\n';
+
+
 
 
 }
 
 int main() {
     fast_io;
-    sieve();
 
     int t = 1;
     cin >> t; // Comment this out if there is only 1 test case (no T)

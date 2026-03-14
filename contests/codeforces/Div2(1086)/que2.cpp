@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 26-01-2026.
+// Created by RAZEEF on 14-03-2026.
 //
 
 
@@ -33,75 +33,65 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-ll factorscnt(ll n) {
+
+
+void moon() {
+
+    ll n,k,p,m;
+    cin >>n>>k>>p>>m;
+    vector<pair<ll, bool>>  a;
+    for (ll i = 0; i < n; i++) {
+
+        ll x;
+        cin>>x;
+        if (p==(i+1)) {
+            a.pb({x, true});
+        }else {
+            a.pb({x, false});
+        }
+    }
 
     ll cnt=0;
-    for (ll i=1;i*i<=n;i++) {
 
-        if (n%i==0) {
-            cnt++;
+    while (true) {
 
-            if (i!=n/i) cnt++;
-        }
-    }
-    return cnt;
-}
-
-
-vector<int> smallprimefactors() {
-
-    const int MAXN=1000006;
-    vector<int> spf(MAXN);
-
-    for (int i=0;i<MAXN;i++) {
-        spf[i]=i;
-    }
-
-    for (int i=2;i*i<MAXN;i++) {
-
-        if (spf[i]==i) {
-
-            for (int j=i*i;j<MAXN;j+=i) {
-                if (spf[j]==j) spf[j]=i;
+        ll idx=-1;
+        ll mini= LINF;
+        bool f=false;
+        for (int i=0;i<min(k,n);i++) {
+            if (a[i].se) {
+                idx=i;
+                f=true;
+                break;
+            }
+            if (mini>a[i].fi) {
+                mini=a[i].fi;
+                idx=i;
             }
         }
-    }
 
-    return spf;
-}
-
-
-void finddivisors() {
-
-    ll n;
-    cin >> n;
-
-
-
-    vector<int> spf;
-    spf=smallprimefactors();
-
-    ll ans=1;
-    while (n>1) {
-
-        ll sp=spf[n];
-
-        int p=0;
-        while (n%sp==0) {
-            p++;
-            n/=sp;
+        m-=a[idx].fi;
+        if (m<0) break;
+        if (f) {
+            cnt++;
         }
-        ans*=(p+1);
+
+        auto it= a[idx];
+        a.erase(a.begin()+idx);
+        a.pb({it.fi, it.se});
+
     }
 
-    cout<<ans<<'\n';
+    cout<<cnt<<"\n";
+
+
+
 
 
 }
 
 int main() {
     fast_io;
-    sieve();
 
     int t = 1;
     cin >> t; // Comment this out if there is only 1 test case (no T)

@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 26-01-2026.
+// Created by RAZEEF on 11-03-2026.
 //
 
 
@@ -33,75 +33,59 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-ll factorscnt(ll n) {
 
-    ll cnt=0;
-    for (ll i=1;i*i<=n;i++) {
+ll n,m;
+bool check(ll k,ll s) {
 
-        if (n%i==0) {
-            cnt++;
-
-            if (i!=n/i) cnt++;
-        }
+    if (k<0) {
+        return false;
     }
-    return cnt;
+    if (k==0) return s==0;
+
+
+    ll mini=1; ll maxi=n;
+    if (m==1) mini=2;
+    if (m==n) maxi=n-1;
+
+    if (mini>maxi) return false;
+
+    if (s<(k*mini) || s>((k*maxi))) return false;
+
+    if (k==1) return s!=m;
+
+    if (n==3 && m==2) {
+        return (s-k)%2==0;
+    }
+
+    if (m==2 && s==(k+1)) return false;
+    if (m==n-1 && s==(k*n-1)) return false;
+
+    return true;
+
 }
 
 
-vector<int> smallprimefactors() {
 
-    const int MAXN=1000006;
-    vector<int> spf(MAXN);
+void moon() {
 
-    for (int i=0;i<MAXN;i++) {
-        spf[i]=i;
-    }
+    ll k,s;
+    cin >> n>>k>>s>>m;
+    vll a(n);
+    //for (ll i = 0; i < n; i++) cin>>a[i];
 
-    for (int i=2;i*i<MAXN;i++) {
 
-        if (spf[i]==i) {
+    for (int i=0; i<=k; i++) {
 
-            for (int j=i*i;j<MAXN;j+=i) {
-                if (spf[j]==j) spf[j]=i;
-            }
+        if (check(k-i, s-(i*m))) {
+            cout<<i<<'\n';
+            return;
         }
     }
-
-    return spf;
-}
-
-
-void finddivisors() {
-
-    ll n;
-    cin >> n;
-
-
-
-    vector<int> spf;
-    spf=smallprimefactors();
-
-    ll ans=1;
-    while (n>1) {
-
-        ll sp=spf[n];
-
-        int p=0;
-        while (n%sp==0) {
-            p++;
-            n/=sp;
-        }
-        ans*=(p+1);
-    }
-
-    cout<<ans<<'\n';
-
 
 }
 
 int main() {
     fast_io;
-    sieve();
 
     int t = 1;
     cin >> t; // Comment this out if there is only 1 test case (no T)

@@ -34,6 +34,8 @@ const ld PI = acos(-1.0);
 
 ##Funs
 isPrime
+modInverse
+find_any_solution  - (a,b,c,x,y,g)  here  pass x,y,g by reference
 smallprimefactors
 finddivisors
 sieve
@@ -87,6 +89,57 @@ bool isPrime(long long n) {
     }
 
     return true;
+}
+
+
+long long extended_gcd(long long a, long long b, long long &x, long long &y) {
+    if (b == 0) { x = 1; y = 0; return a; }
+    long long x1, y1;
+    long long d = extended_gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
+
+
+long long modInverse(long long B, long long M) {
+    long long x, y;
+    long long g = extended_gcd(B, M, x, y);
+
+
+    if (g != 1) return -1;
+
+
+    return (x % M + M) % M;
+}
+
+bool find_any_solution(long long A, long long B, long long C, long long &x, long long &y, long long &g) {
+    long long x0, y0;
+    g = extended_gcd(abs(A), abs(B), x0, y0);
+
+    if (C % g != 0) return false;
+
+    x = x0 * (C / g);
+    y = y0 * (C / g);
+
+
+    if (A < 0) x = -x;
+    if (B < 0) y = -y;
+
+    return true;
+}
+
+
+void shift_solution(long long &x, long long &y, long long A, long long B, long long g) {
+    long long step_x = B / g;
+    long long step_y = A / g;
+
+
+    long long shift_amount = (x % step_x + step_x) % step_x;
+    long long k = (x - shift_amount) / step_x;
+
+    x = shift_amount;
+    y = y + k * step_y;
 }
 
 //////////////////////////////////////////////////////
@@ -154,6 +207,26 @@ long long nCr(int n, int r) {
     }
 
     return res;
+}
+
+long long MODnCr(long long n,long long r){
+
+    if(r<0 || r>n) return 0;
+    if(r==0 || r==n) return 1;
+    if(r>n/2) r=n-r;
+    long long  num=1, den=1;
+
+
+    for(int i=0;i<r;i++){
+          num= (num*(n-i))%MOD;
+          den= (den*(i+1))%MOD;
+    }
+
+    long long inv=modInverse(den, MOD);
+
+    num= (num*inv)%MOD;
+
+    return num;
 }
 
 

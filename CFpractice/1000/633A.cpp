@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 16-03-2026.
 //
 
 
@@ -35,42 +35,13 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
 
-    ll n;
-    cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+    ll a,b,c;
+    cin >> a>>b>>c;
 
-
-    int N = 1000000;
-
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
-        }
-
-    }
-
-
-
-
-    cout<<-1<<'\n';
+    if (c%gcd(a,b)!=0) cout<<"No"<<'\n';
+    else cout<<"Yes"<<'\n';
 
 }
 

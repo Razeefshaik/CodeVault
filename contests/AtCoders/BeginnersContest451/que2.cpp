@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 28-03-2026.
 //
 
 
@@ -35,42 +35,57 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
 
-    ll n;
-    cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+    ll n,m;
+    cin >> n>>m;
+
+    map<ll,multiset<ll>> mpp1;
+    vector<int> prev(n+1, -1);
+    vector<pll> arr(n);
+    for (int i=0;i<n;i++) {
+        ll a,b;
+        cin >> a >> b;
+       arr[i]= {a,b};
 
 
-    int N = 1000000;
+    }
 
+    for (int i=0;i<n;i++) {
 
+        ll p= arr[i].first;
+        mpp1[p].insert(i);
+        prev[i]= p;
+    }
 
-    for(int i=N;i>=1;i--){
+    vector<ll> first(m+1, 0);
+    for (int i=1;i<=m;i++) {
+          first[i]= sz(mpp1[i]);
+    }
 
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
+    for (int i=0;i<n;i++) {
+
+        ll p= arr[i].second;
+
+        if (p!=prev[i]) {
+            mpp1[prev[i]].erase(i);
+            prev[i]= p;
+            mpp1[p].insert(i);
         }
 
     }
 
+    vector<ll> second(m+1, 0);
+    for (int i=1;i<=m;i++) {
+        second[i]= sz(mpp1[i]);
+    }
+    for (int i=1;i<=m;i++) {
+        cout<<second[i]-first[i]<<" ";
+    }
+    cout<<"\n";
 
 
 
-    cout<<-1<<'\n';
 
 }
 

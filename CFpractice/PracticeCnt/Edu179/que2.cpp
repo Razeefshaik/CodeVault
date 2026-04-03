@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 22-03-2026.
 //
 
 
@@ -33,44 +33,28 @@ const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
 
-
-
-
+vector<int> fibos={1,2,3,5,8,13,21,34,55,89,144,233};
 
 void moon() {
 
-    ll n;
-    cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+    ll n,m;
+    cin >> n>>m;
+    vll a= {fibos[n-1], fibos[n-1], fibos[n]};
 
+    for (ll i = 0; i < m; i++) {
+        ll w,l,h;
+        cin >> w >> l >> h;
 
-    int N = 1000000;
+        vector<ll> b={w,l,h};
+        sort(all(b));
 
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
-        }
-
+        if (b[0]>=a[0] && b[1]>=a[1] && b[2]>=a[2]) {
+            cout<<1;
+        }else cout<<0;
     }
 
+    cout<<'\n';
 
-
-
-    cout<<-1<<'\n';
 
 }
 
@@ -78,7 +62,7 @@ int main() {
     fast_io;
 
     int t = 1;
-    //cin >> t; // Comment this out if there is only 1 test case (no T)
+    cin >> t; // Comment this out if there is only 1 test case (no T)
 
     while(t--) {
         moon();

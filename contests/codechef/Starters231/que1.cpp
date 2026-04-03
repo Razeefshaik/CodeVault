@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 25-03-2026.
 //
 
 
@@ -35,42 +35,43 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
 
-    ll n;
-    cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+    ll n,k;
+    cin >> n>>k;
+    vector<pll>  a(n);
+    for (ll i = 0; i < n; i++) cin>>a[i].se;
+    for (ll i = 0; i < n; i++) cin>>a[i].fi;
+
+    sort(all(a));
+    reverse(all(a));
+    multiset<ll> st;
+
+    ll ans=0;
+    for (int i=0;i<n;i++) {
 
 
-    int N = 1000000;
+        for (int j=i+1;j<n;j++) {
 
+            ll maxi= max(a[i].se, a[j].se);
+            ll mini= min(a[i].se, a[j].se);
 
+            ll cut= maxi*0.5;
+            ll fit= min(cut, (ll)100);
+            ll cost= maxi+mini-fit;
 
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
+            if (cost<=k) {
+               // st.insert();
+                ans=max(ans, a[i].fi+a[j].fi);
             }
         }
-
     }
 
+    cout<<ans<<'\n';
 
 
 
-    cout<<-1<<'\n';
+
 
 }
 
@@ -78,7 +79,7 @@ int main() {
     fast_io;
 
     int t = 1;
-    //cin >> t; // Comment this out if there is only 1 test case (no T)
+    cin >> t; // Comment this out if there is only 1 test case (no T)
 
     while(t--) {
         moon();

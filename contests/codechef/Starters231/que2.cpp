@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 25-03-2026.
 //
 
 
@@ -35,42 +35,30 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
 
     ll n;
     cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
-
-
-    int N = 1000000;
-
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
-        }
-
+    vll a(n);
+    map<ll,ll> mpp;
+    for (ll i = 0; i < n; i++) cin>>a[i];
+    ll maxi=a[0];
+    for (int i=0;i<n;i++) {
+        mpp[a[i]]++;
+        maxi=max(maxi, a[i]);
     }
 
+    for (int i=0;i<n;i++) {
+        if (a[i]==maxi) continue;
 
+        if (mpp[a[i]]>1) {
+            cout<<"No"<<'\n';
+            return;
+        }
+    }
 
+    cout<<"Yes"<<'\n';
 
-    cout<<-1<<'\n';
 
 }
 
@@ -78,7 +66,7 @@ int main() {
     fast_io;
 
     int t = 1;
-    //cin >> t; // Comment this out if there is only 1 test case (no T)
+    cin >> t; // Comment this out if there is only 1 test case (no T)
 
     while(t--) {
         moon();

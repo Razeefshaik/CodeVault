@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 03-04-2026.
 //
 
 
@@ -35,42 +35,31 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
 
-    ll n;
-    cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
+    ll n,w;
+    cin >> n>>w;
+    vvll a(n);
     for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+       ll wt,v;
+        cin >> wt >> v;
+        a[i]={wt,v};
+     }
 
+    vvll dp(n, vll(w+1, 0));
+    //dp[0][0]=1;
+    for (int i=0;i<=w;i++) if (i>=a[0][0]) dp[0][i]=a[0][1];
+    for (int i = 1; i <n; i++) {
+        for (int j = 0; j <=w; j++) {
+            dp[i][j]= max(dp[i][j], dp[i-1][j]);
 
-    int N = 1000000;
-
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
+            if (j>=a[i][0]) {
+                dp[i][j]=max(dp[i][j], dp[i-1][j-a[i][0]]+a[i][1]);
             }
         }
-
     }
+    cout << dp[n-1][w];
 
-
-
-
-    cout<<-1<<'\n';
 
 }
 

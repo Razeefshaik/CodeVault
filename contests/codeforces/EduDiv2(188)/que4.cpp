@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 16-03-2026.
 //
 
 
@@ -32,45 +32,59 @@ const ll LINF = 1e18;
 const int MOD = 1e9 + 7;
 const ld PI = acos(-1.0);
 
+ll in=0;
+ll out=0;
+bool check;
 
+void dfs(int u, int c,vector<vector<int>>& adj, vector<ll>& col) {
+    col[u] = c;
 
+    if (c==0) in++;
+    else out++;
+    for(int v:adj[u]){
+        if (col[v]==-1){
 
+       dfs(v, 1-c,adj,col);
+        }else if(col[v]==col[u]){
 
+        check=false;
+        }
+    }
+}
 
 void moon() {
 
-    ll n;
-    cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+    int n,m;
+    cin>>n >> m;
 
-
-    int N = 1000000;
-
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
-        }
-
+    vector<vector<int>> adj(n+1);
+    for (int i=0; i<m;++i) {
+        int u,v;
+        cin >>u >>v;
+        adj[u].pb(v);
+        adj[v].pb(u);
     }
 
 
+     vll col(n+1, -1);
+    ll maxi=0;
+    for (int i=1;i<=n;i++) {
+
+        if (col[i]==-1) {
+            check=true;
+            in=0;
+            out=0;
+
+            dfs(i,0,adj,col);
+            if (check) {
+                maxi+=max({in,out});
+            }
+        }
+    }
+
+    cout<<maxi<<'\n';
 
 
-    cout<<-1<<'\n';
 
 }
 
@@ -78,7 +92,7 @@ int main() {
     fast_io;
 
     int t = 1;
-    //cin >> t; // Comment this out if there is only 1 test case (no T)
+    cin >> t; // Comment this out if there is only 1 test case (no T)
 
     while(t--) {
         moon();

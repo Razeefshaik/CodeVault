@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 03-04-2026.
 //
 
 
@@ -35,42 +35,27 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
 
     ll n;
     cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
-
-
-    int N = 1000000;
-
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
+    vvll a(n, vll(3));
+    for (ll i = 0; i < n; i++) {
+        for (int j=0;j<3;j++) {
+            cin >> a[i][j];
         }
-
     }
 
+    vvll dp(n, vll(3,LINF));
+    dp[0][0]=a[0][0], dp[0][1]=a[0][1], dp[0][2]=a[0][2];
+    for (int idx=1; idx<n; idx++) {
+        for (int i=0;i<3;i++) {
+            dp[idx][i]=a[idx][i]+max(dp[idx-1][(i+1)%3],  dp[idx-1][(i+2)%3]);
+        }
+    }
 
+    cout<<max({dp[n-1][0], dp[n-1][1], dp[n-1][2]})<<'\n';
 
-
-    cout<<-1<<'\n';
 
 }
 
@@ -78,7 +63,7 @@ int main() {
     fast_io;
 
     int t = 1;
-    //cin >> t; // Comment this out if there is only 1 test case (no T)
+   // cin >> t; // Comment this out if there is only 1 test case (no T)
 
     while(t--) {
         moon();

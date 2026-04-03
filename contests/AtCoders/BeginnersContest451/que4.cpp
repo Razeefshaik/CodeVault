@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 28-03-2026.
 //
 
 
@@ -35,43 +35,42 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
-
     ll n;
     cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
 
+    vector<pll> b;
+    ll v=1;
+    while (v<=1e9) {
+        string s=to_string(v);
+        ll m=1;
+        for (char c: s) m*=10;
+        b.pb({m,v});
+        v*=2;
+    }
 
-    int N = 1000000;
-
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
-        }
-
+    vll gd;
+    for (auto it: b) {
+        gd.push_back(it.se);
     }
 
 
+    int h=0;
+    while (h<gd.size()) {
+        ll curr= gd[h++];
+        for (auto it: b) {
+            ll nxt= curr*it.fi+ it.se;
+            if (nxt<=1e9) {
+                gd.pb(nxt);
+            }
 
+        }
+    }
 
-    cout<<-1<<'\n';
+    sort(all(gd));
+    gd.erase(unique(all(gd)), gd.end());
 
+    cout<<gd[n-1]<<'\n';
 }
 
 int main() {

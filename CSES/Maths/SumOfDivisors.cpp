@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 20-03-2026.
 //
 
 
@@ -34,43 +34,52 @@ const ld PI = acos(-1.0);
 
 
 
+long long extended_gcd(long long a, long long b, long long &x, long long &y) {
+    if (b == 0) { x = 1; y = 0; return a; }
+    long long x1, y1;
+    long long d = extended_gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
 
+
+long long modInverse(long long B, long long M) {
+    long long x, y;
+    long long g = extended_gcd(B, M, x, y);
+
+
+    if (g != 1) return -1;
+
+
+    return (x % M + M) % M;
+}
 
 
 void moon() {
 
     ll n;
     cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+
+    ll sum=0;
 
 
-    int N = 1000000;
+    for(ll L=1;L<=n;L++) {
 
+        ll q=n/L;
+        ll R= n/q;
 
+        ll num= (((R-L+1)%MOD)*((R+L)%MOD))%MOD;
+        num=(q*num)%MOD;
+        ll inv=modInverse(2,MOD);
 
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
-        }
+        sum=(sum+num*inv)%MOD;
+        L=R;
 
     }
 
+    cout<<sum<<'\n';
 
-
-
-    cout<<-1<<'\n';
 
 }
 

@@ -1,5 +1,5 @@
 //
-// Created by RAZEEF on 09-03-2026.
+// Created by RAZEEF on 01-04-2026.
 //
 
 
@@ -35,42 +35,39 @@ const ld PI = acos(-1.0);
 
 
 
-
-
 void moon() {
 
-    ll n;
-    cin >> n;
-    //vll a(n);
-     unordered_map<ll, ll> mpp;
-    for (ll i = 0; i < n; i++){
-        ll x;
-      cin>>x;
-      mpp[x]++;
-      }
+    ll n,Q;
+    cin >> n>>Q;
+    vll a(n);
+    for (ll i = 0; i < n; i++) cin>>a[i];
 
-
-    int N = 1000000;
-
-
-
-    for(int i=N;i>=1;i--){
-
-        ll cnt=0;
-        for(int j=i;j<=N;j+=i){
-            if (mpp.count(j)) cnt+=mpp[j];
-            if (cnt>1) {
-                cout<<i<<'\n';
-                return;
-            }
-        }
-
+    sort(all(a));
+    a.erase(unique(all(a)), a.end());
+    n= sz(a);
+    vll diff(n-1);
+    for (int i=0;i<n-1;i++) {
+        diff[i]= a[i+1]-a[i];
+    }
+    sort(all(diff));
+    vll pre(n);
+    pre[0]=0;
+    for (int i=0;i<n-1;i++) {
+        pre[i+1]=pre[i]+diff[i];
     }
 
 
+    for (int q=0;q<Q;q++) {
+        ll x;
+        cin>>x;
 
+        auto it=upper_bound(all(diff),x);
+        ll idx= distance(diff.begin(),it);
 
-    cout<<-1<<'\n';
+        ll cal= pre[idx]+ (n-idx)*x;
+        cout<<cal<<'\n';
+    }
+
 
 }
 

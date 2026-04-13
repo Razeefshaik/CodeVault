@@ -167,6 +167,59 @@ vector<int> smallprimefactors() {
 }
 
 
+
+// Fast Modular Exponentiation
+ll power(ll base, ll exp) {
+    ll res = 1;
+    base %= MOD;
+    while (exp > 0) {
+        if (exp % 2 == 1) res = (res * base) % MOD;
+        base = (base * base) % MOD;
+        exp /= 2;
+    }
+    return res;
+}
+
+ll  solve_massive_lcm() {
+    int n;
+    cin >> n;
+    vector<ll> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    unordered_map<ll, ll> max_prime_power;
+
+    // O(sqrt(V)) Factorization per number
+    for (ll x : a) {
+        if (x <= 1) continue;
+
+        for (ll i = 2; i * i <= x; i++) {
+            if (x % i == 0) {
+                ll count = 0;
+                while (x % i == 0) {
+                    count++;
+                    x /= i;
+                }
+                max_prime_power[i] = max(max_prime_power[i], count);
+            }
+        }
+        // If x is still > 1, it is a prime number itself
+        if (x > 1) {
+            max_prime_power[x] = max(max_prime_power[x], 1LL);
+        }
+    }
+
+    // Calculate Final Modulo Answer
+    ll lcm_modulo = 1;
+    for (auto it : max_prime_power) {
+        ll p = it.first;
+        ll exp = it.second;
+        lcm_modulo = (lcm_modulo * power(p, exp)) % MOD;
+    }
+
+    return lcm_modulo ;
+}
+
+
 void finddivisors() {
 
     ll n;
@@ -310,6 +363,7 @@ public:
         }
     }
 };
+
 
 
 

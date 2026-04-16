@@ -1,3 +1,7 @@
+//
+// Created by RAZEEF on 13-04-2026.
+//
+
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -33,37 +37,33 @@ const ld PI = acos(-1.0);
 
 void moon() {
 
-    ll n,k;
-    cin >> n>>k;
-    vll a(n);
-    for (ll i = 0; i < n; i++) cin>>a[i];
+    ll p,q;
+    cin >> p>>q;
 
+    ll s= p+2*q;
+    ll x= 2*s+1;
 
-    if (k == 1) {
+    for (ll a=3;a*a<=x;a+=2) {
 
-        ll max_right = 0;
-        for (int i = 1; i < n; i++) {
-            max_right = max(max_right, a[i]);
+        if (x%a==0) {
+
+            ll b=x/a;
+
+            ll n= (a-1)/2;
+            ll m=(b-1)/2;
+
+            if (n>0 && m>0) {
+
+                if (q<=n*(m+1) && q<=m*(n+1)) {
+                    cout <<n<<" "<<m<<'\n';
+                    return;
+                }
+            }
         }
-        ll ans1 = a[0] + max_right;
 
-
-        ll max_left = 0;
-        for (int i = 0; i < n - 1; i++) {
-            max_left = max(max_left, a[i]);
-        }
-        ll ans2 = a[n - 1] + max_left;
-
-        cout << max(ans1, ans2) << '\n';
-    }else {
-
-        sort(all(a));
-        reverse(all(a));
-        ll ans=0;
-        for (ll i = 0; i <=k; i++) ans+=a[i];
-        cout << ans << '\n';
     }
 
+    cout<<-1<<'\n';
 
 }
 
@@ -79,3 +79,9 @@ int main() {
 
     return 0;
 }
+
+
+
+
+
+
